@@ -3,12 +3,12 @@
 **Gift Asset** is the unified data center and API for **Telegram Gifts** — unique visual collectibles inside Telegram that form a new layer of its digital economy.
 
 ## DATA
-- 📘 [DOCUMENTATION](https://github.com/killmode696/giftasset/blob/main/DOCS.md)
+- 📘 [DOCUMENTATION](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/DOCS.md)
 - ⚙️ [SWAGGER](https://giftasset.pro/docs)
-- 🟢 [STATUS CODES](https://github.com/killmode696/giftasset/blob/main/status/HTTP_STATUS_CODES.md)
+- 🟢 [STATUS CODES](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/status/HTTP_STATUS_CODES.md)
 
 ## SDK's
-- 🧰 [PYTHON-SDK](https://github.com/killmode696/giftasset/blob/main/python_sdk/README.md)
+- 🧰 [PYTHON-SDK](https://github.com/GIFT-ASSET/giftasset_api/blob/main/python_sdk/README.md)
 ---
 
 ## 📌 What is it?
