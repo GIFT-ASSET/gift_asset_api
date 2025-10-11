@@ -8,7 +8,7 @@
 - 🟢 [STATUS CODES](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/status/HTTP_STATUS_CODES.md)
 
 ## SDK's
-- 🧰 [PYTHON-SDK](https://github.com/GIFT-ASSET/giftasset_api/blob/main/python_sdk/README.md)
+- 🧰 [PYTHON-SDK](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/python_sdk/README.md)
 ---
 
 ## 📌 What is it?
