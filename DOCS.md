@@ -1,38 +1,21 @@
 # GiftAsset API Documentation
-## ⚙️ [SWAGGER](https://giftasset.pro/docs)
-## 🟢 [STATUS CODES](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/status/HTTP_STATUS_CODES.md)
-## 🧰 [PYTHON-SDK](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/python_sdk/README.md)
 
-### User-Data
+**Version:** 1.0  
+**OpenAPI:** 3.0.0  
+**Base URL:** https://giftasset.pro  
 
-- [Receive all user's collections gifts](#receive-all-users-collections-gifts)
-- [Receive gift by name](#receive-gift-by-name)
-- [Receive user's gifts](#receive-users-gifts)
-- [Get the cost of a user's profile](#get-the-cost-of-a-users-profile)
+---
 
-### Providers
+## Contents
 
-- [Get the top sales volume of individual attributes per day](#get-the-top-sales-volume-of-individual-attributes-per-day)
-- [Get collection buy offers](#get-collection-buy-offers)
-- [Get the top sales volume of individual collections per N time](#get-the-top-sales-volume-of-individual-collections-per-n-time)
-- [Get fee per provider](#get-fee-per-provider)
-- [Get sales history of current provider](#get-sales-history-of-current-provider)
-- [Get providers' sales volumes](#get-providers-sales-volumes)
-- [Get the top deals of the day](#get-the-top-deals-of-the-day)
-- [Get the unique deals of the providers](#get-the-top-deals-of-the-day)
+- [User-Data](#user-data)  
+- [Providers](#providers)  
+- [Metadata](#metadata)  
+- [Analytics](#analytics)  
 
-### Metadata
+---
 
-- [Get attributes metadata](#get-attributes-metadata)
-- [Get collections metadata](#get-collections-metadata)
-
-### Analytics
-
-- [Get collections emission](#get-collections-emission)
-- [Get gift prices](#get-gift-prices)
-- [Get gift price list history](#get-gift-price-list-history)
-- [Get gifts update statistics](#get-gifts-update-statistics)
-- [Get the marketcap of gifts](#get-the-marketcap-of-gifts)
+# User-Data
 
 ---
 
@@ -48,57 +31,62 @@
 ```json
 {
   "include": ["Evil Eye"],
-  "exclude": ["Evil Eye"]
+  "exclude": ["Evil Eye"],
+  "limit": 100,
+  "offset": 0
 }
 ```
 - `include` *(array of strings)* — Only the specified collections  
 - `exclude` *(array of strings)* — All except the specified collections  
+- `limit` *(integer)* — Limit of returned gifts  
+- `offset` *(integer)* — Offset (pagination)  
 
-**Response:**
+**Responses:**
+
+- `200 OK` — Successfully retrieved user's collections gifts  
 ```json
 [
   {
-    "collection_name": "Astral Shard",
-    "count": 1
-  },
-  {
-    "collection_name": "Sakura Flower",
-    "count": 1
-  },
-  {
-    "collection_name": "Big Year",
-    "count": 1
-  },
-  {
-    "collection_name": "Top Hat",
-    "count": 1
-  },
-  {
-    "collection_name": "Desk Calendar",
-    "count": 1
-  },
-  {
     "collection_name": "Lunar Snake",
-    "count": 1
-  },
-  {
-    "collection_name": "Candy Cane",
-    "count": 1
-  },
-  {
-    "collection_name": "Swag Bag",
-    "count": 1
-  },
-  {
-    "collection_name": "Snoop Dogg",
     "count": 1
   }
 ]
 ```
+- `400 Bad Request` — Invalid parameters  
+```json
+{
+  "code": "PARAM_MISSING",
+  "message": "Missing 'username' parameter"
+}
+```
+- `401 Unauthorized` — Invalid API key  
+```json
+{
+  "code": "UNAUTHORIZED",
+  "message": "Invalid or inactive API key"
+}
+```
+- `422 Unprocessable Entity` — Validation error for collection names  
+```json
+{
+  "code": "VALIDATION_ERROR",
+  "message": "Invalid collection names provided",
+  "details": [
+    "Collection 'Invalid Collection' does not exist"
+  ]
+}
+```
+- `500 Internal Server Error`  
+```json
+{
+  "code": "INTERNAL_SERVER_ERROR",
+  "message": "Internal server error occurred"
+}
+```
 
 ---
 
-## Receive gift by name
+## Receive a gift by name
 
 **GET** `/api/v1/gifts/get_gift_by_name`
 
@@ -106,7 +94,9 @@
 
 - `name` *(string, required)* — Gift name (e.g., `EasterEgg-1`)
 
-**Response:** 
+**Responses:**
+
+- `200 OK` — Successfully retrieved gift details  
 ```json
 {
   "attributes": {
@@ -204,6 +194,9 @@
   "total_amount": 173176
 }
 ```
+- `400 Bad Request` — Missing or invalid parameters  
+- `401 Unauthorized` — Invalid API key  
+- `500 Internal Server Error`
 
 ---
 
@@ -213,11 +206,13 @@
 
 **Query Parameters:**
 
-- `username` *(string, required)*
-- `limit` *(integer, required)* — How many gifts to return  
-- `offset` *(integer, optional)* — For pagination
+- `username` *(string, required)*  
+- `limit` *(integer, required)* — Number of gifts to return  
+- `offset` *(integer, optional)* — For pagination  
 
-**Response:**
+**Responses:**
+
+- `200 OK` — Successfully retrieved user's gifts  
 ```json
 [
   {
@@ -318,6 +313,10 @@
 ]
 ```
 
+- `400 Bad Request`  
+- `401 Unauthorized`  
+- `500 Internal Server Error`  
+
 ---
 
 ## Get the cost of a user's profile
@@ -330,7 +329,9 @@
 - `limit` *(integer, required)*  
 - `offset` *(integer, optional)*  
 
-**Response:**
+**Responses:**
+
+- `200 OK`
 ```json
 {
   "gifts": [
@@ -361,13 +362,21 @@
 }
 ```
 
+- Other error codes: `400`, `401`, `500`
+
+---
+
+# Providers
+
 ---
 
 ## Get the top sales volume of individual attributes per day
 
 **GET** `/api/v1/gifts/get_attribute_volumes`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 {
   "getgems": {
@@ -388,6 +397,9 @@
   }
 }
 ```
+
+- Other error codes: `400`, `401`, `500`
+
 ---
 
 ## Get collection buy offers
@@ -395,12 +407,16 @@
 **POST** `/api/v1/gifts/get_collection_offers`
 
 **Request Body:**
+
 ```json
 {
   "collection_name": "Evil Eye"
 }
 ```
-**Response:**
+
+**Responses:**
+
+- `200 OK`  
 ```json
 {
   "portals": [
@@ -417,6 +433,9 @@
   ]
 }
 ```
+
+- Other error codes: `400`, `401`, `500`
+
 ---
 
 ## Get the top sales volume of individual collections per N time
@@ -427,7 +446,9 @@
 
 - `maxtime` *(integer, required)* — Time in seconds (e.g., 3600)
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 {
   "getgems": {
@@ -443,13 +464,17 @@
 }
 ```
 
+- Other error codes: `400`, `401`, `500`
+
 ---
 
 ## Get fee per provider
 
 **GET** `/api/v1/gifts/get_providers_fee`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 [
   {
@@ -467,6 +492,8 @@
 ]
 ```
 
+- Other error codes: `400`, `401`, `500`
+
 ---
 
 ## Get sales history of current provider
@@ -475,11 +502,14 @@
 
 **Query Parameters:**
 
-- `provider_name` *(string, required)* — e.g. `tonnel`  
+- `provider_name` *(string, required)*  
 - `limit` *(integer, required)*  
 - `offset` *(integer, required)*  
+- `premarket` *(boolean, optional)*  
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 [
   {
@@ -494,13 +524,17 @@
 ]
 ```
 
+- Other error codes: `400`, `401`, `500`
+
 ---
 
 ## Get providers' sales volumes
 
 **GET** `/api/v1/gifts/get_providers_volumes`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 [
   {
@@ -516,13 +550,17 @@
 ]
 ```
 
+- Other error codes: `400`, `401`, `500`
+
 ---
 
 ## Get the top deals of the day
 
 **GET** `/api/v1/gifts/get_top_best_deals`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 {
   "getgems": [
@@ -631,169 +669,65 @@
 }
 ```
 
----
-
-## Get the unique deals of the providers
-
-**GET** `/api/v1/gifts/get_unique_deals`
-
-**Response:**
-```json
-{
-  "getgems": [
-    {
-      "gift": {
-        "attributes": {
-          "BACKDROP": {
-            "name": "Battleship Grey",
-            "rarity": 12,
-            "readable_rarity": 1.2
-          },
-          "MODEL": {
-            "name": "Monkey Mouse",
-            "rarity": 20,
-            "readable_rarity": 2
-          },
-          "SYMBOL": {
-            "name": "Paper Crane",
-            "rarity": 4,
-            "readable_rarity": 0.4
-          }
-        },
-        "attributes_array": [
-          {
-            "name": "Paper Crane",
-            "rarity": 0.4,
-            "type": "SYMBOL"
-          },
-          {
-            "name": "Battleship Grey",
-            "rarity": 1.2,
-            "type": "BACKDROP"
-          },
-          {
-            "name": "Monkey Mouse",
-            "rarity": 2,
-            "type": "MODEL"
-          }
-        ],
-        "collectible_id": 21755,
-        "id": 2083981,
-        "last_updated_at": "2025-09-02T08:52:21Z",
-        "market_floor": {
-          "avg": 1.865,
-          "max": 2.56,
-          "min": 0
-        },
-        "media": {
-          "lottie_anim": "https://nft.fragment.com/gift/jollychimp-21755.lottie.json",
-          "pics": {
-            "large": "https://nft.fragment.com/gift/jollychimp-21755.large.jpg",
-            "medium": "https://nft.fragment.com/gift/jollychimp-21755.medium.jpg",
-            "small": "https://nft.fragment.com/gift/jollychimp-21755.small.jpg"
-          }
-        },
-        "media_preview": "https://nft.fragment.com/gift/jollychimp-21755.medium.jpg",
-        "providers": {
-          "getgems": {
-            "collection_floor": 2.5,
-            "sales_stat": {
-              "sales_24h": 9,
-              "sales_24h_value": 93,
-              "sales_all": 9,
-              "sales_all_value": 93
-            }
-          },
-          "mrkt": {
-            "collection_floor": 2.56,
-            "sales_stat": {
-              "sales_24h": 202,
-              "sales_24h_value": 667,
-              "sales_all": 202,
-              "sales_all_value": 667
-            }
-          },
-          "portals": {
-            "collection_floor": 0,
-            "sales_stat": {
-              "sales_24h": 1110,
-              "sales_24h_value": 5496,
-              "sales_all": 1110,
-              "sales_all_value": 5496
-            }
-          },
-          "tonnel": {
-            "collection_floor": 2.4,
-            "sales_stat": {
-              "sales_24h": 230,
-              "sales_24h_value": 1085,
-              "sales_all": 230,
-              "sales_all_value": 1085
-            }
-          }
-        },
-        "rarity_index": 0.0001,
-        "telegram_gift_id": 5825670855492897000,
-        "telegram_gift_name": "JollyChimp-21755",
-        "telegram_gift_number": 94177,
-        "telegram_gift_title": "Jolly Chimp",
-        "telegram_nft_url": "https://t.me/nft/JollyChimp-21755",
-        "total_amount": 132155
-      },
-      "price": 25,
-      "telegram_gift_name": "JollyChimp-21755",
-      "unix": 1756802702
-    }
-  ]
-}
-```
+- Other error codes: `400`, `401`, `500`
 
 ---
 
-## Get attributes metadata
+# Metadata
+
+---
+
+## Get raw information of collection attributes
 
 **GET** `/api/v1/gifts/get_attributes_metadata`
 
-**Response:**
-```json
-{
-  "Genie Lamp":{
-    "backdrops": [],
-    "models": [],
-    "symbols": []
-  }
-}
-```
+**Responses:**
 
----
-
-## Get collections metadata
-
-**GET** `/api/v1/gifts/get_collections_metadata`
-
-**Response:**
+- `200 OK`  
 ```json
 [
   {
     "collection_name": "Snoop Dogg",
     "telegram_id": 6014591077976114000
-  },
-  {
-    "collection_name": "Swag Bag",
-    "telegram_id": 6012607142387779000
-  },
-  {
-    "collection_name": "Snoop Cigar",
-    "telegram_id": 6012435906336654000
   }
 ]
 ```
 
-## Get collections emission
+- Other error codes: `400`, `401`, `500`
+
+---
+
+## Get raw information of collections
+
+**GET** `/api/v1/gifts/get_collections_metadata`
+
+**Responses:**
+
+- `200 OK`  
+```json
+[
+  {
+    "collection_name": "Snoop Dogg",
+    "telegram_id": 6014591077976114000
+  }
+]
+```
+
+- Other error codes: `400`, `401`, `500`
+
+---
+
+# Analytics
+
+---
+
+## Get an issue of unique gifts inside collections
 
 **GET** `/api/v1/gifts/get_gifts_collections_emission`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 {
   "Astral Shard": {
@@ -807,61 +741,41 @@
 }
 ```
 
+- Other error codes: `400`, `401`, `500`
+
 ---
 
-## Get gift prices
+## Get the market-cap of gifts
 
-**GET** `/api/v1/gifts/get_gifts_price_list`
+**GET** `/api/v1/gifts/get_gifts_collections_marketcap`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 {
-  "collection_floors": {
-    "Astral Shard": {
-      "getgems": 76,
-      "last_update": "2025-08-17T11:08:44+00:00",
-      "portals": 79,
-      "tonnel": 84.9
+  "getgems": [
+    {
+      "available_gifts": 5359,
+      "collection_name": "Astral Shard",
+      "floor": "85.00",
+      "ton_mcap": 455515
     }
-  }
+  ]
 }
 ```
 
----
-
-## Get gift price list history
-
-**GET** `/api/v1/gifts/get_gifts_price_list_history`
-
-**Response:**
-```json
-{
-  "Astral Shard": {
-    "portals": {
-      "24h": {
-        "2025-08-16 09:55:36": 74
-      },
-      "7d": {},
-      "current_price": 74
-    },
-    "tonnel": {
-      "24h": {
-        "2025-08-16 09:55:37": 73
-      },
-      "7d": {},
-      "current_price": 73
-    }
-  }
-}
-```
+- Other error codes: `400`, `401`, `500`
 
 ---
 
-## Get gifts update statistics
+## Get statistics on gift improvements per day
 
 **GET** `/api/v1/gifts/get_gifts_update_stat`
 
-**Response:**
+**Responses:**
+
+- `200 OK`  
 ```json
 {
   "last_updates": [
@@ -876,22 +790,7 @@
   ]
 }
 ```
+
+- Other error codes: `400`, `401`, `500`
+
 ---
-
-## Get the marketcap of gifts
-
-**GET** `/api/v1/gifts/get_gifts_collections_marketcap`
-
-**Response:**
-```json
-{
-  "getgems": [
-    {
-      "available_gifts": 5359,
-      "collection_name": "Astral Shard",
-      "floor": "85.00",
-      "ton_mcap": 455515
-    }
-  ]
-}
-```
