@@ -1,7 +1,7 @@
 # GiftAsset API Documentation
-
-**Version:** 1.0  
-**OpenAPI:** 3.0.0  
+## ⚙️ [SWAGGER](https://giftasset.pro/docs)
+## 🟢 [STATUS CODES](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/status/HTTP_STATUS_CODES.md)
+## 🧰 [PYTHON-SDK](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/python_sdk/README.md)
 **Base URL:** https://giftasset.pro  
 
 ---
