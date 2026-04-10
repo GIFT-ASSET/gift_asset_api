@@ -2,7 +2,7 @@
 ## ⚙️ [SWAGGER](https://giftasset.gifts/docs)
 ## 🟢 [STATUS CODES](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/status/HTTP_STATUS_CODES.md)
 ## 🧰 [PYTHON-SDK](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/python_sdk/README.md)
-**Base URL:** https://giftasset.pro  
+**Base URL:** https://giftasset.gifts/docs 
 
 ---
 
