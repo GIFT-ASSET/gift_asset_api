@@ -4,7 +4,7 @@
 
 ## DATA
 - 📘 [DOCUMENTATION](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/DOCS.md)
-- ⚙️ [SWAGGER](https://giftasset.pro/docs)
+- ⚙️ [SWAGGER](https://giftasset.gifts/docs)
 - 🟢 [STATUS CODES](https://github.com/GIFT-ASSET/gift_asset_api/blob/main/status/HTTP_STATUS_CODES.md)
 
 ## SDK's
